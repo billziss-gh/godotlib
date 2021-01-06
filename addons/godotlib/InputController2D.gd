@@ -29,6 +29,8 @@ export var motion_down: String = "ui_down"
 # The motion is interpretted as impulse for RigidBody2D and velocity for all other nodes.
 export var motion: Vector2 = Vector2(100, 100)
 
+export var rotate: bool
+
 # Non-motion actions that will emit action_pressed when pressed.
 export var actions: Array = PoolStringArray()
 
@@ -56,11 +58,14 @@ func _RigidBody2D_process_motion(motion, _delta):
     _parent.apply_central_impulse(motion)
 
 func _KinematicBody2D_process_motion(motion, _delta):
+    if rotate and 0 < motion.length_squared():
+        _parent.rotation = motion.angle()
     _parent.move_and_slide(motion)
 
 func _Node2D_process_motion(motion, delta):
-    _parent.position.x += motion.x * delta
-    _parent.position.y += motion.y * delta
+    if rotate and 0 < motion.length_squared():
+        _parent.rotation = motion.angle()
+    _parent.position += motion * delta
 
 func _Node_process_motion(motion, _delta):
     pass

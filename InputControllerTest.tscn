@@ -40,5 +40,6 @@ shape = SubResource( 2 )
 
 [node name="InputController2D" type="Node" parent="Player"]
 script = ExtResource( 2 )
+rotate = true
 actions = [ "ui_accept", "ui_cancel" ]
 [connection signal="action_pressed" from="Player/InputController2D" to="." method="_on_InputController2D_action_pressed"]
