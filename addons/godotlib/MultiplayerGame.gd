@@ -70,9 +70,9 @@ func _prepare_timeout():
     stop_game()
 
 func host():
-    if null == _tree.network_peer:
-        _tree.network_peer = NetworkedMultiplayerENet.new()
-    var err = _tree.network_peer.create_server(port, max_clients)
+    var peer = _tree.network_peer if null != _tree.network_peer else NetworkedMultiplayerENet.new()
+    var err = peer.create_server(port, max_clients)
+    _tree.network_peer = peer
     if 0 != err:
         call_deferred("emit_signal",
             "host_event", false, "create_server")
@@ -81,25 +81,25 @@ func host():
             "host_event", true, "")
 
 func join():
-    if null == _tree.network_peer:
-        _tree.network_peer = NetworkedMultiplayerENet.new()
-    var err = _tree.network_peer.create_client(address, port)
+    var peer = _tree.network_peer if null != _tree.network_peer else NetworkedMultiplayerENet.new()
+    var err = peer.create_client(address, port)
+    _tree.network_peer = peer
     if 0 != err:
         call_deferred("emit_signal",
             "join_event", false, "create_client")
 
 func leave():
-    if null == _tree.network_peer:
-        return
-    var is_network_server = _tree.is_network_server
-    _tree.network_peer.close_connection()
-    _tree.network_peer = null
-    if is_network_server:
-        call_deferred("emit_signal",
-            "host_event", false, "")
-    else:
-        call_deferred("emit_signal",
-            "join_event", false, "")
+    var peer = _tree.network_peer
+    if null != peer:
+        if _tree.is_network_server():
+            peer.close_connection()
+            call_deferred("emit_signal",
+                "host_event", false, "")
+        else:
+            peer.close_connection()
+            call_deferred("emit_signal",
+                "join_event", false, "")
+        _tree.network_peer = null
 
 func start_game(timeout = 10):
     assert(_tree.is_network_server())
