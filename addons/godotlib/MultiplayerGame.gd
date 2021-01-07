@@ -125,10 +125,12 @@ func ready_to_game():
     rpc_id(1, "_update_game", GameStatus._READY)
 
 remotesync func _update_game(status):
+    #print("_update_game ", _tree.get_rpc_sender_id(), " ", status)
     var sender_id = _tree.get_rpc_sender_id()
     match status:
         GameStatus.PREPARE, GameStatus.PLAY, GameStatus.STOP:
             if 1 == sender_id and _status != status:
+                _status = status
                 call_deferred("emit_signal",
                     "game_event", status)
         GameStatus._READY:
