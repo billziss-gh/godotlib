@@ -66,9 +66,6 @@ func _network_peer_disconnected(id):
         _network_server_peers[id] = GameStatus.STOP
     emit_signal("peer_event", false, id)
 
-func _prepare_timeout():
-    stop_game()
-
 func host():
     var peer = _tree.network_peer if null != _tree.network_peer else NetworkedMultiplayerENet.new()
     var err = peer.create_server(port, max_clients)
@@ -100,6 +97,7 @@ func leave():
             call_deferred("emit_signal",
                 "join_event", false, "")
         _tree.network_peer = null
+        _network_server_peers.clear()
 
 func start_game(timeout = 10):
     assert(_tree.is_network_server())
@@ -110,11 +108,14 @@ func start_game(timeout = 10):
     for id in _network_server_peers:
         rpc_id(id, "_update_game", GameStatus.PREPARE)
     _timer = _tree.create_timer(timeout)
-    _timer.connect("timeout", self, "_prepare_timeout")
+    _timer.connect("timeout", self, "_start_timeout")
+
+func _start_timeout():
+    pass
+    #stop_game()
 
 func stop_game():
     assert(_tree.is_network_server())
-    assert(not _network_server_peers.empty())
     for id in _network_server_peers:
         if GameStatus.STOP != _network_server_peers[id]:
             rpc_id(id, "_update_game", GameStatus.STOP)
@@ -123,7 +124,7 @@ func stop_game():
 func ready_to_game():
     rpc_id(1, "_update_game", GameStatus._READY)
 
-remote func _update_game(status):
+remotesync func _update_game(status):
     var sender_id = _tree.get_rpc_sender_id()
     match status:
         GameStatus.PREPARE, GameStatus.PLAY, GameStatus.STOP:

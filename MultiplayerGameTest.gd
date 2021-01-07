@@ -39,3 +39,5 @@ func _on_MultiplayerGame_peer_event(connected, id):
 
 func _on_MultiplayerGame_game_event(status):
     print("game_event: ", status)
+    if $MultiplayerGame.GameStatus.PREPARE == status:
+        $MultiplayerGame.ready_to_game()
