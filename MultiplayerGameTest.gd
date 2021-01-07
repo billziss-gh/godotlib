@@ -12,20 +12,39 @@ func populate_mgnode():
 
 func _on_HostButton_pressed():
     populate_mgnode()
+    $HostButton.disabled = true
+    $JoinButton.disabled = true
+    $LeaveButton.disabled = false
+    $StartButton.disabled = false
+    $StopButton.disabled = true
     $MultiplayerGame.host()
 
 func _on_JoinButton_pressed():
     populate_mgnode()
+    $HostButton.disabled = true
+    $JoinButton.disabled = true
+    $LeaveButton.disabled = false
+    $StartButton.disabled = true
+    $StopButton.disabled = true
     $MultiplayerGame.join()
 
 func _on_LeaveButton_pressed():
+    $HostButton.disabled = false
+    $JoinButton.disabled = false
+    $LeaveButton.disabled = true
+    $StartButton.disabled = true
+    $StopButton.disabled = true
     $MultiplayerGame.leave()
 
 func _on_StartButton_pressed():
     var timeout = int($Timeout.text)
+    $StartButton.disabled = true
+    $StopButton.disabled = false
     $MultiplayerGame.start_game(timeout)
 
 func _on_StopButton_pressed():
+    $StartButton.disabled = false
+    $StopButton.disabled = true
     $MultiplayerGame.stop_game()
 
 func _on_MultiplayerGame_host_event(connected, detail):

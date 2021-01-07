@@ -91,6 +91,7 @@ margin_left = 320.65
 margin_top = 206.627
 margin_right = 332.65
 margin_bottom = 226.627
+disabled = true
 text = "Leave"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -121,6 +122,7 @@ margin_left = 194.658
 margin_top = 314.98
 margin_right = 206.658
 margin_bottom = 334.98
+disabled = true
 text = "Start"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -131,6 +133,7 @@ margin_left = 254.504
 margin_top = 314.98
 margin_right = 266.504
 margin_bottom = 334.98
+disabled = true
 text = "Stop"
 __meta__ = {
 "_edit_use_anchors_": false

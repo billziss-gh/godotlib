@@ -89,6 +89,7 @@ func leave():
     var peer = _tree.network_peer
     if null != peer:
         if _tree.is_network_server():
+            stop_game()
             peer.close_connection()
             call_deferred("emit_signal",
                 "host_event", false, "")
@@ -97,7 +98,6 @@ func leave():
             call_deferred("emit_signal",
                 "join_event", false, "")
         _tree.network_peer = null
-        _network_server_peers.clear()
 
 func start_game(timeout = 10):
     assert(_tree.is_network_server())
