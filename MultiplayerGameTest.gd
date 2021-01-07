@@ -1,6 +1,7 @@
 extends Node2D
 
 func _ready():
+    $HostAddresses.text = $MultiplayerGame.get_local_addresses().join("\n")
     $Address.text = $MultiplayerGame.address
     $Port.text = String($MultiplayerGame.port)
     $MaxClients.text = String($MultiplayerGame.max_clients)

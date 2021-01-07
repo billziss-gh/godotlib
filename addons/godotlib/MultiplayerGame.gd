@@ -68,6 +68,14 @@ func _network_peer_disconnected(id):
     call_deferred("emit_signal",
         "peer_event", false, id)
 
+func get_local_addresses():
+    var p: PoolStringArray
+    for a in IP.get_local_addresses():
+        if a.begins_with("127.") or a.begins_with("169.254.") or ":" in a:
+            continue
+        p.append(a)
+    return p
+
 func host():
     var peer = _tree.network_peer if null != _tree.network_peer else NetworkedMultiplayerENet.new()
     var err = peer.create_server(port, max_clients)
