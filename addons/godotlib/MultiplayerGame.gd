@@ -59,12 +59,14 @@ func _server_disconnected():
         "join_event", false, "server_disconnected")
 
 func _network_peer_connected(id):
-    emit_signal("peer_event", true, id)
+    call_deferred("emit_signal",
+        "peer_event", true, id)
 
 func _network_peer_disconnected(id):
     if _network_server_peers.has(id):
         _network_server_peers[id] = GameStatus.STOP
-    emit_signal("peer_event", false, id)
+    call_deferred("emit_signal",
+        "peer_event", false, id)
 
 func host():
     var peer = _tree.network_peer if null != _tree.network_peer else NetworkedMultiplayerENet.new()
