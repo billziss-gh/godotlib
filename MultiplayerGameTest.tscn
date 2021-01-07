@@ -34,7 +34,7 @@ margin_left = 64.0
 margin_top = 96.0
 margin_right = 116.0
 margin_bottom = 110.0
-text = "Address"
+text = "Join Address"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -53,7 +53,7 @@ margin_left = 64.0
 margin_top = 140.0
 margin_right = 104.0
 margin_bottom = 154.0
-text = "Port"
+text = "Network Port"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -72,7 +72,7 @@ margin_left = 64.0
 margin_top = 188.0
 margin_right = 138.0
 margin_bottom = 202.0
-text = "Max Clients"
+text = "Max Joiners"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -111,7 +111,6 @@ margin_left = 280.0
 margin_top = 232.0
 margin_right = 329.0
 margin_bottom = 252.0
-disabled = true
 text = "Leave"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -122,7 +121,7 @@ margin_left = 64.0
 margin_top = 292.0
 margin_right = 117.0
 margin_bottom = 306.0
-text = "Timeout"
+text = "Start Timeout"
 __meta__ = {
 "_edit_use_anchors_": false
 }

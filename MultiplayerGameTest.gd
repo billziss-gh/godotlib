@@ -2,50 +2,41 @@ extends Node2D
 
 func _ready():
     $HostAddresses.text = $MultiplayerGame.get_local_addresses().join("\n")
-    $Address.text = $MultiplayerGame.address
-    $Port.text = String($MultiplayerGame.port)
-    $MaxClients.text = String($MultiplayerGame.max_clients)
+    $Address.text = $MultiplayerGame.join_address
+    $Port.text = String($MultiplayerGame.network_port)
+    $MaxClients.text = String($MultiplayerGame.max_joiners)
+    $Timeout.text = String($MultiplayerGame.start_game_timeout)
 
 func populate_mgnode():
-    $MultiplayerGame.address = $Address.text
-    $MultiplayerGame.port = int($Port.text)
-    $MultiplayerGame.max_clients = int($MaxClients.text)
+    $MultiplayerGame.join_address = $Address.text
+    $MultiplayerGame.network_port = int($Port.text)
+    $MultiplayerGame.max_joiners = int($MaxClients.text)
+    $MultiplayerGame.start_game_timeout = int($Timeout.text)
 
 func _on_HostButton_pressed():
     populate_mgnode()
-    $HostButton.disabled = true
-    $JoinButton.disabled = true
-    $LeaveButton.disabled = false
     $StartButton.disabled = false
-    $StopButton.disabled = true
+    $StopButton.disabled = false
     $MultiplayerGame.host()
 
 func _on_JoinButton_pressed():
     populate_mgnode()
-    $HostButton.disabled = true
-    $JoinButton.disabled = true
-    $LeaveButton.disabled = false
     $StartButton.disabled = true
     $StopButton.disabled = true
     $MultiplayerGame.join()
 
 func _on_LeaveButton_pressed():
-    $HostButton.disabled = false
-    $JoinButton.disabled = false
-    $LeaveButton.disabled = true
+    #$HostButton.disabled = false
+    #$JoinButton.disabled = false
+    #$LeaveButton.disabled = true
     $StartButton.disabled = true
     $StopButton.disabled = true
     $MultiplayerGame.leave()
 
 func _on_StartButton_pressed():
-    var timeout = int($Timeout.text)
-    $StartButton.disabled = true
-    $StopButton.disabled = false
-    $MultiplayerGame.start_game(timeout)
+    $MultiplayerGame.start_game()
 
 func _on_StopButton_pressed():
-    $StartButton.disabled = false
-    $StopButton.disabled = true
     $MultiplayerGame.stop_game()
 
 func _on_MultiplayerGame_host_event(connected, detail):
