@@ -95,6 +95,46 @@ text = "Leave"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 114.023
+margin_top = 275.293
+margin_right = 167.023
+margin_bottom = 289.293
+text = "Timeout"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timeout" type="LineEdit" parent="."]
+margin_left = 192.768
+margin_top = 268.363
+margin_right = 250.768
+margin_bottom = 292.363
+text = "10"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartButton" type="Button" parent="."]
+margin_left = 194.658
+margin_top = 314.98
+margin_right = 206.658
+margin_bottom = 334.98
+text = "Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StopButton" type="Button" parent="."]
+margin_left = 254.504
+margin_top = 314.98
+margin_right = 266.504
+margin_bottom = 334.98
+text = "Stop"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="game_event" from="MultiplayerGame" to="." method="_on_MultiplayerGame_game_event"]
 [connection signal="host_event" from="MultiplayerGame" to="." method="_on_MultiplayerGame_host_event"]
 [connection signal="join_event" from="MultiplayerGame" to="." method="_on_MultiplayerGame_join_event"]
@@ -102,3 +142,5 @@ __meta__ = {
 [connection signal="pressed" from="HostButton" to="." method="_on_HostButton_pressed"]
 [connection signal="pressed" from="JoinButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="LeaveButton" to="." method="_on_LeaveButton_pressed"]
+[connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="StopButton" to="." method="_on_StopButton_pressed"]

@@ -21,6 +21,13 @@ func _on_JoinButton_pressed():
 func _on_LeaveButton_pressed():
     $MultiplayerGame.leave()
 
+func _on_StartButton_pressed():
+    var timeout = int($Timeout.text)
+    $MultiplayerGame.start_game(timeout)
+
+func _on_StopButton_pressed():
+    $MultiplayerGame.stop_game()
+
 func _on_MultiplayerGame_host_event(connected, detail):
     print("host_event: ", connected, " ", detail)
 
