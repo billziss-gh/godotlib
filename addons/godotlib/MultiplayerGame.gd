@@ -70,7 +70,7 @@ func _prepare_timeout():
     stop_game()
 
 func host():
-    var peer = NetworkedMultiplayerENet.new()
+    var peer = _tree.network_peer if null != _tree.network_peer else NetworkedMultiplayerENet.new()
     var err = peer.create_server(port, max_clients)
     _tree.network_peer = peer
     if 0 != err:
@@ -81,7 +81,7 @@ func host():
             "host_event", true, "")
 
 func join():
-    var peer = NetworkedMultiplayerENet.new()
+    var peer = _tree.network_peer if null != _tree.network_peer else NetworkedMultiplayerENet.new()
     var err = peer.create_client(address, port)
     _tree.network_peer = peer
     if 0 != err:
