@@ -157,7 +157,7 @@ func ready_to_game():
     rpc_id(1, "_update_game", GameStatus._READY, _game_index)
 
 remotesync func _update_game(status, index):
-    print("_update_game sender_id=", _tree.get_rpc_sender_id(), " status=", status, " index=", index)
+    #print("_update_game sender_id=", _tree.get_rpc_sender_id(), " status=", status, " index=", index)
     var sender_id = _tree.get_rpc_sender_id()
     match status:
         GameStatus.PREPARE:
