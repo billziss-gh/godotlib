@@ -6,7 +6,7 @@ extends Node
 
 signal host_event(connected, detail)
 signal join_event(connected, detail)
-signal game_event(status)
+signal game_event(status, arg)
 signal peer_event(connected, id)
 
 enum GameStatus {
@@ -127,7 +127,7 @@ func leave():
                 "join_event", false, "")
         _tree.network_peer = null
 
-func start_game():
+func start_game(arg = null):
     assert(_tree.is_network_server())
     if not _game_peers.empty():
         return
@@ -136,7 +136,7 @@ func start_game():
         _game_peers[id] = GameStatus.PREPARE
     _game_index = _rng.randi()
     for id in _game_peers:
-        rpc_id(id, "_update_game", GameStatus.PREPARE, _game_index)
+        rpc_id(id, "_update_game", GameStatus.PREPARE, _game_index, arg)
     _start_game_timer.start(start_game_timeout)
 
 func _start_game_timeout():
@@ -145,7 +145,7 @@ func _start_game_timeout():
 func stop_game():
     assert(_tree.is_network_server())
     for id in _game_peers:
-        rpc_id(id, "_update_game", GameStatus.STOP, _game_index)
+        rpc_id(id, "_update_game", GameStatus.STOP, _game_index, null)
     _reset_game()
 
 func _reset_game():
@@ -154,9 +154,9 @@ func _reset_game():
     _game_index = _rng.randi()
 
 func ready_to_game():
-    rpc_id(1, "_update_game", GameStatus._READY, _game_index)
+    rpc_id(1, "_update_game", GameStatus._READY, _game_index, null)
 
-remotesync func _update_game(status, index):
+remotesync func _update_game(status, index, arg):
     #print("_update_game sender_id=", _tree.get_rpc_sender_id(), " status=", status, " index=", index)
     var sender_id = _tree.get_rpc_sender_id()
     match status:
@@ -164,16 +164,16 @@ remotesync func _update_game(status, index):
             if 1 == sender_id:
                 _game_index = index
                 call_deferred("emit_signal",
-                    "game_event", status)
+                    "game_event", status, arg)
         GameStatus.PLAY:
             if 1 == sender_id:
                 if _game_index == index:
                     call_deferred("emit_signal",
-                        "game_event", status)
+                        "game_event", status, arg)
         GameStatus.STOP:
             if 1 == sender_id:
                 call_deferred("emit_signal",
-                    "game_event", status)
+                    "game_event", status, arg)
         GameStatus._READY:
             if _tree.is_network_server() and \
                 _game_index == index and \
@@ -187,4 +187,4 @@ remotesync func _update_game(status, index):
                 if ready:
                     _start_game_timer.stop()
                     for id in _game_peers:
-                        rpc_id(id, "_update_game", GameStatus.PLAY, _game_index)
+                        rpc_id(id, "_update_game", GameStatus.PLAY, _game_index, null)

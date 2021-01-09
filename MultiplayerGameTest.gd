@@ -34,7 +34,7 @@ func _on_LeaveButton_pressed():
     $MultiplayerGame.leave()
 
 func _on_StartButton_pressed():
-    $MultiplayerGame.start_game()
+    $MultiplayerGame.start_game(42)
 
 func _on_StopButton_pressed():
     $MultiplayerGame.stop_game()
@@ -48,7 +48,7 @@ func _on_MultiplayerGame_join_event(connected, detail):
 func _on_MultiplayerGame_peer_event(connected, id):
     print("peer_event: ", connected, " ", id)
 
-func _on_MultiplayerGame_game_event(status):
-    print("game_event: ", status)
+func _on_MultiplayerGame_game_event(status, arg):
+    print("game_event: ", status, " ", arg)
     if $MultiplayerGame.GameStatus.PREPARE == status:
         $MultiplayerGame.ready_to_game()
