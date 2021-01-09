@@ -131,6 +131,7 @@ func start_game(arg = null):
     assert(_tree.is_network_server())
     if not _game_peers.empty():
         return
+    #_tree.network_peer.refuse_new_connections = true
     _game_peers[1] = GameStatus.PREPARE
     for id in _tree.get_network_connected_peers():
         _game_peers[id] = GameStatus.PREPARE
@@ -155,6 +156,9 @@ func _reset_game():
 
 func ready_to_game():
     rpc_id(1, "_update_game", GameStatus._READY, _game_index, null)
+
+func get_game_peers():
+    return _game_peers.keys()
 
 remotesync func _update_game(status, index, arg):
     #print("_update_game sender_id=", _tree.get_rpc_sender_id(), " status=", status, " index=", index)
