@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godotlib/FlexibleMarginContainer.gd" type="Script" id=1]
+
+[node name="FlexibleMarginContainerTest" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FlexibleMarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 100
+custom_constants/margin_top = 100
+custom_constants/margin_left = 100
+custom_constants/margin_bottom = 100
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+content_max_size = Vector2( 400, 100 )
+
+[node name="Button" type="Button" parent="FlexibleMarginContainer"]
+margin_left = 312.0
+margin_top = 250.0
+margin_right = 712.0
+margin_bottom = 350.0
+text = "Button"
